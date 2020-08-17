@@ -65,42 +65,47 @@ exports.getList = (request, response) => {
 
 // Add item to currently selected recipe list
 exports.addToList = async (request, response) => {
-    const itemToAdd = {
-        productId: request.body.productID,
-        name: request.body.name,
-        imageUrl: request.body.imageUrl,
-        quantity: 1
-    };
-    let listData = {};
-    const document = await db.doc(`/lists/${request.params.listID}`).get()
-        .then(doc => {
-            if (!doc.exists) {
-                return response.status(404).json({ error: `Could not find the list with id: ${request.params.listID}` });
-            }
-
-            if (doc.data().userHandle !== request.user.handle) {
-                return response.status(403).json({ error: 'Unauthorized, need to be owner of the list to delete it.' });
-            } else {
-                listData = doc.data();
-                console.log(listData);
-
-                const items = listData.items;
-                console.log(items);
-                if (items.find(item => item.productID === request.body.productID)) {
-                    const index = items.findIndex(item => item[productID] === request.body.productID);
-                    // console.log(index);
-                    listData.items[index].quantity = listData.items[index].quantity + 1;
-                } else {
-                    listData.items.push(itemToAdd);
-                    console.log(listData);
+    try {
+        const itemToAdd = {
+            productID: request.body.productID,
+            name: request.body.name,
+            imageUrl: request.body.imageUrl,
+            quantity: 1
+        };
+        let listData = {};
+        const document = db.collection('lists').doc(request.params.listID);
+        await document.get()
+            .then(doc => {
+                if (!doc.exists) {
+                    return response.status(404).json({ error: `Could not find the list with id: ${request.params.listID}` });
                 }
-                return response.status(200).json(listData);
-            }
-        })
-        .catch(err => {
-            console.error(err);
-            return response.status(500).json({ error: err.code });
-        })
+
+                if (doc.data().userHandle !== request.user.handle) {
+                    return response.status(403).json({ error: 'Unauthorized, need to be owner of the list to modify it.' });
+                } else {
+                    listData = doc.data();
+
+                    const items = listData.items;
+                    console.log(items);
+                    if (items.find(item => item.productID === request.body.productID)) {
+                        const index = items.findIndex(item => item.productID === request.body.productID);
+                        // console.log(index);
+                        listData.items[index].quantity = listData.items[index].quantity + 1;
+                    } else {
+                        listData.items.push(itemToAdd);
+                    }
+                    return response.status(200).json(listData);
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                return response.status(500).json({ error: err.code });
+            })
+        await document.update({ items: listData.items });
+    } catch (err) {
+        console.error(err);
+        return response.status(500).json({ error: err.code });
+    }
 }
 
 // deleting a list from our lists collections
