@@ -19,5 +19,5 @@ app.delete('/lists/:listID', FBAuth, deleteList);
 app.post('/signup', signup);
 app.post('/login', login);
 
-// handle multiplate routes
+// handle multiple routes
 exports.api = functions.https.onRequest(app);

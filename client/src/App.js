@@ -1,27 +1,20 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./App.css";
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from '@apollo/react-hooks';
-import Search from './components/Search';
-import { SearchResultsContainer } from './containers/SearchResultsContainer';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Register from './pages/Register';
+import Login from './pages/Login';
 
 function App() {
-  const [SearchQuery, setSearchQuery] = useState('');
-
-  const client = new ApolloClient({
-    uri: 'https://graphql.jupiter.co/'
-  });
-
   return (
     <div className="App">
-      <Search setSearchQuery={setSearchQuery} />
-      <br />
-      <ApolloProvider client={client}>
-        <main>
-          <SearchResultsContainer query={SearchQuery} page={1} />
-          {console.log(SearchQuery)}
-        </main>
-      </ApolloProvider>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/signup" component={Register} />
+          <Route exact path="/login" component={Login} />
+        </Switch>
+      </Router>
     </div>
   );
 }
