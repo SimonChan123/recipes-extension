@@ -1,11 +1,121 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
-function Register() {
+const useStyles = makeStyles({
+    root: {
+        maxWidth: 345,
+
+    },
+    media: {
+        height: 175,
+    },
+});
+
+export default function Register() {
+    const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    // const [errors, setErrors] = useState({});
+
+    const classes = useStyles();
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        // const userData = {
+        //     email: this.state.email,
+        //     password: this.state.password
+        // };
+
+        // redux + axios to send data to server
+    };
+
+    const handleChange = (event) => {
+        setUserName(event.target.userName);
+        setEmail(event.target.email);
+        setPassword(event.target.password);
+        setConfirmPassword(event.target.confirmPassword);
+        // setErrors(event.target.errors);
+    };
+
+    // TODO: Validation and Error checking at some point
+
     return (
-        <div>
-            <p>signup page</p>
-        </div>
-    )
-}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10vh' }}>
+            <Card className={classes.root}>
+                <CardActionArea>
+                    <CardMedia
+                        className={classes.media}
+                        image="https://cdn.pixabay.com/photo/2017/09/01/19/05/breadbasket-2705179_960_720.png"
+                        title="Bread"
+                    />
+                    <CardContent>
+                        <Typography variant="h5">
+                            Register
+                    </Typography>
 
-export default Register
+                        {/* form for user data submission */}
+                        <form noValidate onSubmit={handleSubmit}>
+                            <TextField id="handle"
+                                name="handle"
+                                type="handle"
+                                label="User Name"
+                                className={classes.textField}
+                                value={userName}
+                                onChange={handleChange}
+                                fullWidth
+                            />
+                            <TextField id="email"
+                                name="email"
+                                type="email"
+                                label="Email"
+                                className={classes.textField}
+                                value={email}
+                                onChange={handleChange}
+                                fullWidth
+                            />
+                            <TextField id="password"
+                                name="password"
+                                type="password"
+                                label="Password"
+                                className={classes.textField}
+                                value={password}
+                                onChange={handleChange}
+                                fullWidth
+                            />
+                            <TextField id="confirmPassword"
+                                name="confirmPassword"
+                                type="confirmPassword"
+                                label="Confirm password"
+                                className={classes.textField}
+                                value={confirmPassword}
+                                onChange={handleChange}
+                                fullWidth
+                            />
+                            <br />
+                            <br />
+                            <Button type="submit" variant="contained" color="primary" fullWidth>
+                                Submit
+                            </Button>
+                        </form>
+                    </CardContent>
+
+                    <CardActions>
+                        <small>
+                            Already have an account? Login <Link to="/login">here</Link>.
+                        </small>
+                    </CardActions>
+                </CardActionArea>
+            </Card >
+        </div>
+    );
+}

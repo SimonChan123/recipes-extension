@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
 import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
@@ -62,8 +64,21 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SearchAppBar() {
+export default function Navbar() {
+    const [query, setQuery] = useState('');
+
     const classes = useStyles();
+    const history = useHistory();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(query);
+        history.push({
+            pathname: "/",
+            state: { query }
+        });
+        setQuery('');
+    };
 
     return (
         <div className={classes.root}>
@@ -83,18 +98,29 @@ export default function SearchAppBar() {
                     <div className={classes.spacing}>
                     </div>
 
+                    {/* <Fragment> */}
+                    <Button color="inherit" component={Link} to="/">Home</Button>
+                    <Button color="inherit" component={Link} to="/login">Login</Button>
+                    <Button color="inherit" component={Link} to="/signup">Register</Button>
+                    <Button color="inherit" component={Link} to="/recipes">Recipes</Button>
+                    {/* </Fragment> */}
+
                     <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon />
                         </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
+                        <form onSubmit={handleSubmit}>
+                            <InputBase
+                                placeholder="Search…"
+                                value={query}
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                                onChange={(e) => setQuery(e.target.value)}
+                            />
+                        </form>
                     </div>
                 </Toolbar>
             </AppBar>
