@@ -15,6 +15,10 @@ const useStyles = makeStyles({
         maxWidth: 345,
 
     },
+    button: {
+        color: 'white',
+        backgroundColor: 'rgb(255, 92, 92)'
+    },
     media: {
         height: 175,
     },
@@ -77,7 +81,7 @@ export default function Login() {
                             />
                             <br />
                             <br />
-                            <Button type="submit" variant="contained" color="primary" fullWidth>
+                            <Button type="submit" variant="contained" className={classes.button} fullWidth>
                                 Login
                             </Button>
                         </form>
