@@ -69,7 +69,8 @@ export default function Register() {
 
                         {/* form for user data submission */}
                         <form noValidate onSubmit={handleSubmit}>
-                            <TextField id="handle"
+                            <TextField InputLabelProps={{ shrink: true }} id="handle"
+                                required
                                 name="handle"
                                 type="handle"
                                 label="User Name"
@@ -78,7 +79,8 @@ export default function Register() {
                                 onChange={handleChange}
                                 fullWidth
                             />
-                            <TextField id="email"
+                            <TextField InputLabelProps={{ shrink: true }} id="email"
+                                required
                                 name="email"
                                 type="email"
                                 label="Email"
@@ -87,7 +89,8 @@ export default function Register() {
                                 onChange={handleChange}
                                 fullWidth
                             />
-                            <TextField id="password"
+                            <TextField InputLabelProps={{ shrink: true }} id="password"
+                                required
                                 name="password"
                                 type="password"
                                 label="Password"
@@ -96,7 +99,8 @@ export default function Register() {
                                 onChange={handleChange}
                                 fullWidth
                             />
-                            <TextField id="confirmPassword"
+                            <TextField InputLabelProps={{ shrink: true }} id="confirmPassword"
+                                required
                                 name="confirmPassword"
                                 type="confirmPassword"
                                 label="Confirm password"

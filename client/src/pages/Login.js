@@ -33,11 +33,11 @@ export default function Login() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // const userData = {
-        //     email: this.state.email,
-        //     password: this.state.password
-        // };
-        // TODO: send data to be checked to redux and then use axios to request routes
+        const userData = {
+            email: this.state.email,
+            password: this.state.password
+        };
+        this.props.loginUser(userData, this.props.history);
     };
 
     const handleChange = (event) => {
@@ -61,20 +61,26 @@ export default function Login() {
                     </Typography>
 
                         <form noValidate onSubmit={handleSubmit}>
-                            <TextField id="email"
+                            <TextField InputLabelProps={{ shrink: true }} id="email"
+                                required
                                 name="email"
                                 type="email"
                                 label="Email"
-                                className={classes.textField}
+                                // className={classes.textField}
+                                // helperText={errors.email}
+                                // error={errors.email ? true : false}
                                 value={email}
                                 onChange={handleChange}
                                 fullWidth
                             />
-                            <TextField id="password"
+                            <TextField InputLabelProps={{ shrink: true }} id="password"
+                                required
                                 name="password"
                                 type="password"
                                 label="Password"
-                                className={classes.textField}
+                                // className={classes.textField}
+                                // helperText={errors.password}
+                                // error={errors.password ? true : false}
                                 value={password}
                                 onChange={handleChange}
                                 fullWidth
